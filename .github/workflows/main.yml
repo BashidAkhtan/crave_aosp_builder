@@ -22,8 +22,8 @@ on:
           - 'ArrowOS 13.1'
           - 'DerpFest 14.0'
           - 'CipherOS 14'
-          - 'PixelOS 14'
-          - 'RisingOS 14'
+          - 'PixelOS 15'
+          - 'RisingOS 15'
           - 'LineageOS 18.1'
           - 'LineageOS 16.0'
           - 'CyanogenMOD 14.1'
@@ -38,19 +38,18 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/sounddrill31/local_manifests_oxygen'
+        default: 'https://raw.githubusercontent.com/Motorola-Miami/Local-Manifest/refs/heads/15.0-Crave/local_manifests_LineageOS.xml'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-21-qpr3'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "oxygen"
+        default: "miami"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "oxygen"
+        default: "miami"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
@@ -63,7 +62,7 @@ on:
         options: 
         - 'eng'
         - 'userdebug'
-        - 'user' 
+        - 'user'
       CLEAN_BUILD:
         description: 'Build with a clean workspace?'
         required: true
@@ -124,15 +123,15 @@ jobs:
           export PROJECTID="79"
           export REPO_INIT="repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1"
         ;;
-        "PixelOS 14")
-          export PROJECTFOLDER="/crave-devspaces/Pixel14"
+        "PixelOS 15")
+          export PROJECTFOLDER="/crave-devspaces/Pixel15"
           export PROJECTID="82"
-          export REPO_INIT="repo init -u https://github.com/PixelOS-AOSP/manifest.git -b fourteen --git-lfs --depth=1"
+          export REPO_INIT="repo init -u https://github.com/PixelOS-AOSP/manifest.git -b fifteen --git-lfs --depth=1"
         ;;
-        "RisingOS 14")
-          export PROJECTFOLDER="/crave-devspaces/Rising14"
+        "RisingOS 15")
+          export PROJECTFOLDER="/crave-devspaces/Rising15"
           export PROJECTID="86"
-          export REPO_INIT="repo init -u https://github.com/RisingTechOSS/android.git -b fourteen --git-lfs --depth=1"
+          export REPO_INIT="repo init -u https://github.com/RisingTechOSS/android.git -b fifteen --git-lfs --depth=1"
         ;;
         "LineageOS 18.1")
           export PROJECTFOLDER="/crave-devspaces/Lineage18"
@@ -158,7 +157,7 @@ jobs:
 
         if [[ ${{ github.event.inputs.PRODUCT_NAME }} == *_* ]] && [[ ${{ github.event.inputs.PRODUCT_NAME }} != gsi_* ]] && [[ ${{ github.event.inputs.PRODUCT_NAME }} != sdk_* ]] && [[ ${{ github.event.inputs.PRODUCT_NAME }} != *_sprout ]] && [[ ${{ github.event.inputs.PRODUCT_NAME }} != Mi439_* ]] && [[ ${{ github.event.inputs.PRODUCT_NAME }} != Mi8937_* ]]; then
           LUNCH="lunch ${{ github.event.inputs.PRODUCT_NAME }}-${{ github.event.inputs.BUILD_TYPE }}"
-        elif [[ "${{ github.event.inputs.BASE_PROJECT }}" == "RisingOS 14" ]] && [[ "${{ github.event.inputs.BUILD_DIFFERENT_ROM }}" == "echo 'Build Starting!'" ]]; then
+        elif [[ "${{ github.event.inputs.BASE_PROJECT }}" == "RisingOS 15" ]] && [[ "${{ github.event.inputs.BUILD_DIFFERENT_ROM }}" == "echo 'Build Starting!'" ]]; then
             LUNCH="riseup ${{ github.event.inputs.PRODUCT_NAME }} ${{ github.event.inputs.BUILD_TYPE }}"
         else
             LUNCH="breakfast ${{ github.event.inputs.PRODUCT_NAME }} ${{ github.event.inputs.BUILD_TYPE }}"
@@ -378,7 +377,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         send_telegram_message "Crave Project: ${{ github.event.inputs.BASE_PROJECT }}%0ACrave ProjectID: $PROJECTID %0ABuild for ${{ github.event.inputs.DEVICE_NAME }} has been queued %0ACheck Progress at: %0Ahttps://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/actions/runs/${{ github.run_id }}"
@@ -488,7 +489,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         send_telegram_message "Crave Project: ${{ github.event.inputs.BASE_PROJECT }}%0ACrave ProjectID: $PROJECTID %0ABuild for ${{ github.event.inputs.DEVICE_NAME }} has Succeeded! %0ACheck Progress at: %0Ahttps://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/actions/runs/${{ github.run_id }}%0ADownload at: https://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/releases/tag/${{ github.run_id }}"
@@ -510,7 +513,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         if [ "$jobStatus" = "cancelled" ]; then

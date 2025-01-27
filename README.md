@@ -91,12 +91,15 @@ LOS 21:
 ```
 
 For more info, read the documentation [here](https://foss.crave.io/docs/crave-usage/#location-of-the-craveyaml-file)
+### If you want to use the following features Create Repository Secret for them.
 ### EXTRA_FILES (Optional)
 If this exists, these files will be uploaded too. Remember to use relative path like out/target/product/devicename/file.something and seperate multiple files with spaces.
 ### TELEGRAM_TOKEN (Optional)
 Bot token for telegram notifications
 ### TELEGRAM_TO (Optional)
 Chat id for telegram notifications
+### THREAD_ID (Optional)
+To Notify in telegram with Topics
 ### CRAVE_FLAGS (Optional)
 Extra flags for crave binary
 ### TG_UPLOAD_LIMIT (Optional)
