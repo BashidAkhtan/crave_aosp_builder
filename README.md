@@ -97,6 +97,8 @@ If this exists, these files will be uploaded too. Remember to use relative path 
 Bot token for telegram notifications
 ### TELEGRAM_TO (Optional)
 Chat id for telegram notifications
+### THREAD ID (Optional)
+To Notify in telegram with Topics
 ### CRAVE_FLAGS (Optional)
 Extra flags for crave binary
 ### TG_UPLOAD_LIMIT (Optional)
