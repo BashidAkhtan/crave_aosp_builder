@@ -38,19 +38,18 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/sounddrill31/local_manifests_oxygen'
+        default: 'https://raw.githubusercontent.com/Motorola-Miami/Local-Manifest/refs/heads/15.0-Crave/local_manifests_LineageOS.xml'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-21-qpr3'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "oxygen"
+        default: "miami"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "oxygen"
+        default: "miami"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
@@ -63,7 +62,7 @@ on:
         options: 
         - 'eng'
         - 'userdebug'
-        - 'user' 
+        - 'user'
       CLEAN_BUILD:
         description: 'Build with a clean workspace?'
         required: true
@@ -378,7 +377,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         send_telegram_message "Crave Project: ${{ github.event.inputs.BASE_PROJECT }}%0ACrave ProjectID: $PROJECTID %0ABuild for ${{ github.event.inputs.DEVICE_NAME }} has been queued %0ACheck Progress at: %0Ahttps://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/actions/runs/${{ github.run_id }}"
@@ -488,7 +489,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         send_telegram_message "Crave Project: ${{ github.event.inputs.BASE_PROJECT }}%0ACrave ProjectID: $PROJECTID %0ABuild for ${{ github.event.inputs.DEVICE_NAME }} has Succeeded! %0ACheck Progress at: %0Ahttps://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/actions/runs/${{ github.run_id }}%0ADownload at: https://github.com/$(echo "${{ github.repository }}" | sed 's@_@\\_@g')/releases/tag/${{ github.run_id }}"
@@ -510,7 +513,9 @@ jobs:
           https://api.telegram.org/bot$botToken/sendMessage \
           -d chat_id=$chatId \
           -d text="$message" \
-          -d parse_mode="Markdown"
+          -d parse_mode="Markdown" \
+          -d disable_web_page_preview=true \
+          -d message_thread_id="${{ secrets.THREAD_ID }}"
         }
 
         if [ "$jobStatus" = "cancelled" ]; then
